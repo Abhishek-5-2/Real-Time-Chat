@@ -18,6 +18,7 @@ const currentlyTyping = new Set();
 
 
 
+
 var colors = [
     '#e6194b', '#3cb44b', '#ffe119', '#0082c8',
     '#f58231', '#911eb4', '#46f0f0', '#f032e6',
@@ -71,6 +72,8 @@ function onConnected() {
     console.log("WebSocket connected!");
     stompClient.subscribe(`/topic/messages/${roomId}`, onMessageReceived);
     stompClient.subscribe(`/topic/typing/${roomId}`, onTypingReceived);
+    stompClient.subscribe(`/topic/onlineUsers/${roomId}`, onOnlineUsersReceived); // 👈 subscribe to online users
+
     stompClient.send(`/app/chat/${roomId}/addUser`, {}, JSON.stringify({
         sender: username,
         type: 'JOIN',
@@ -80,6 +83,26 @@ function onConnected() {
     connectingElement.classList.add('hidden');
     document.querySelector('#room-name').textContent = `Chat Room: ${roomId}`;
 }
+
+function onOnlineUsersReceived(payload) {
+    const users = JSON.parse(payload.body);
+    const onlineUsersList = document.getElementById('online-users');
+    const userCountSpan = document.getElementById('user-count');
+
+    onlineUsersList.innerHTML = ''; // Clear old list
+
+    users.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = user;
+        li.style.color = getAvatarColor(user);
+        onlineUsersList.appendChild(li);
+    });
+
+    // ✅ Update the count
+    userCountSpan.textContent = users.length;
+}
+
+
 
 function onError(error) {
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
@@ -237,10 +260,9 @@ function getAvatarColor(sender) {
 }
 
 
-
 window.addEventListener('beforeunload', function () {
     if (stompClient && stompClient.connected) {
-        stompClient.send(`/app/chat/${roomId}/addUser`, {}, JSON.stringify({
+        stompClient.send(`/app/chat/${roomId}/removeUser`, {}, JSON.stringify({
             sender: username,
             type: 'LEAVE',
             sessionId: sessionId
@@ -248,6 +270,7 @@ window.addEventListener('beforeunload', function () {
         stompClient.disconnect();
     }
 });
+
 
 let typingTimeout;
 
@@ -269,6 +292,19 @@ messageInput.addEventListener('input', function () {
         }));
     }, 1500); // stops typing after 1.5s of inactivity
 });
+const toggleUsersBtn = document.getElementById('toggle-users-btn');
+const onlineUsersList = document.getElementById('online-users');
+const userCountSpan = document.getElementById('user-count');
+
+toggleUsersBtn.addEventListener('click', () => {
+    onlineUsersList.classList.toggle('hidden');
+    // Toggle visibility, but don't change the count text
+    toggleUsersBtn.textContent = onlineUsersList.classList.contains('hidden') 
+        ? `👥 Online Users (${userCountSpan.textContent})` 
+        : `👥 Hide Users (${userCountSpan.textContent})`;
+});
+
+
 
 
 usernameForm.addEventListener('submit', connect, true);
