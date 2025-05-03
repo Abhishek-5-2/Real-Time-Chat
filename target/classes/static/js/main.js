@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (typeof EmojiButton !== 'undefined') {
         const picker = new EmojiButton({
-            position: 'top-end', // other options: 'top-start', 'bottom-start', 'bottom-end'
+            position: 'bottom-start', // other options: 'top-start', 'bottom-start', 'bottom-end'
             autoHide: false,     // optional: keeps the picker open until clicked outside
-            theme: 'light'       // or 'dark'
+            theme: 'dark'       // or 'light'
         });
         
         picker.on('emoji', emoji => {
