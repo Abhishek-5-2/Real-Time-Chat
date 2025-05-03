@@ -1,19 +1,19 @@
-// MessageHistoryController.java
 package com.example.websocketdemo.controller;
+
+import java.time.Instant;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatMessageEntity;
 import com.example.websocketdemo.repository.ChatMessageRepository;
+
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/api/messages")
@@ -23,8 +23,12 @@ public class MessageHistoryController {
     private ChatMessageRepository messageRepository;
 
     @GetMapping("/{roomId}")
-    public List<ChatMessage> getMessages(@PathVariable String roomId) {
-        List<ChatMessageEntity> entities = messageRepository.findByRoomIdOrderByTimestampAsc(roomId);
+    public List<ChatMessage> getMessages(
+        @PathVariable String roomId,
+        @RequestParam(defaultValue = "1") int hours // fetch messages from last X hours
+    ) {
+        Instant fromTime = Instant.now().minus(Duration.ofHours(hours));
+        List<ChatMessageEntity> entities = messageRepository.findMessagesSince(roomId, fromTime);
         List<ChatMessage> messages = new ArrayList<>();
 
         for (ChatMessageEntity entity : entities) {
@@ -33,8 +37,8 @@ public class MessageHistoryController {
             chatMessage.setSender(entity.getSender());
             chatMessage.setRoomId(entity.getRoomId());
             chatMessage.setType(entity.getType());
-            chatMessage.setTimestamp(entity.getTimestamp()); //this is for timestamp on message bubble
-            chatMessage.setSessionId(entity.getSessionId()); //this is important for previous message showing to users 
+            chatMessage.setTimestamp(entity.getTimestamp());
+            chatMessage.setSessionId(entity.getSessionId());
             messages.add(chatMessage);
         }
 

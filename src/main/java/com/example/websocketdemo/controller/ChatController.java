@@ -54,6 +54,7 @@ public class ChatController {
         chatMessage.setTimestamp(entity.getTimestamp());
 
         messagingTemplate.convertAndSend("/topic/messages/" + roomId, chatMessage);
+       
     }
 
     @MessageMapping("/chat/{roomId}/typing")
@@ -108,8 +109,8 @@ public class ChatController {
             message.setTimestamp(entity.getTimestamp());
             message.setSessionId(entity.getSessionId());
             message.setType(entity.getType() != null ? entity.getType() : ChatMessage.MessageType.CHAT);
-
-            messagingTemplate.convertAndSendToUser(sessionId, "/queue/history", message);
+            
+      messagingTemplate.convertAndSendToUser(headerAccessor.getUser().getName(), "/queue/history", message);
         });
     }
 
