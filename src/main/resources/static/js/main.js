@@ -70,16 +70,36 @@ function connect(event) {
 
 function onConnected() {
     console.log("WebSocket connected!");
+
+    // Subscriptions
     stompClient.subscribe(`/topic/messages/${roomId}`, onMessageReceived);
     stompClient.subscribe(`/topic/typing/${roomId}`, onTypingReceived);
-    stompClient.subscribe(`/topic/onlineUsers/${roomId}`, onOnlineUsersReceived); // 👈 subscribe to online users
+    stompClient.subscribe(`/topic/onlineUsers/${roomId}`, onOnlineUsersReceived);
+    stompClient.subscribe(`/user/queue/history`, onMessageReceived);
 
+    // Notify server about new user
     stompClient.send(`/app/chat/${roomId}/addUser`, {}, JSON.stringify({
         sender: username,
         type: 'JOIN',
         sessionId: sessionId
     }));
 
+    // Request WebSocket-based message history (optional)
+    stompClient.send(`/app/chat/${roomId}/history`, {});
+
+    // Load REST API history (safe now that roomId is confirmed)
+    fetch(`/api/messages/${roomId}`)
+        .then(response => response.json())
+        .then(messages => {
+            if (Array.isArray(messages)) {
+                messages.forEach(onMessageReceived);
+            } else {
+                console.error('Expected an array but got:', messages);
+            }
+        })
+        .catch(error => console.error('Failed to load messages:', error));
+
+    // UI updates
     connectingElement.classList.add('hidden');
     document.querySelector('#room-name').textContent = `Chat Room: ${roomId}`;
 }
@@ -169,7 +189,26 @@ function sendMessage(event) {
 }
 
 function onMessageReceived(payload) {
-    var message = JSON.parse(payload.body);
+    var message;
+
+    // Handle WebSocket message (has .body)
+    if (payload && typeof payload.body === 'string') {
+        try {
+            message = JSON.parse(payload.body);
+        } catch (e) {
+            console.error('Failed to parse WebSocket message:', payload.body);
+            return;
+        }
+    } 
+    // Handle REST message (already an object)
+    else if (typeof payload === 'object') {
+        message = payload;
+    } 
+    else {
+        console.error('Invalid message payload:', payload);
+        return;
+    }
+
     console.log("Message received:", message);
 
     var messageElement = document.createElement('li');
@@ -177,7 +216,7 @@ function onMessageReceived(payload) {
     if (message.type === 'JOIN' || message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
         var eventText = document.createTextNode(
-            message.type === 'JOIN' ? `${message.sender} joined!` : `${message.sender} left!`
+            message.type === 'JOIN' ?`${message.sender} joined!` : `${message.sender} left!`
         );
         messageElement.appendChild(eventText);
     } else {
@@ -205,22 +244,20 @@ function onMessageReceived(payload) {
             messageElement.classList.add('same-sender');
         }
 
-        // Create message bubble
+        // Message bubble
         var bubble = document.createElement('div');
         bubble.classList.add('chat-bubble');
 
-        // Regex to detect a single emoji (accounts for emoji sequences too)
         const emojiRegex = /^\p{Emoji}+$/u;
         const isSingleEmoji = emojiRegex.test(message.content.trim());
-        
+
         bubble.textContent = message.content;
-        
+
         if (isSingleEmoji && message.content.trim().length <= 3) {
             bubble.classList.add('single-emoji');
         }
-        
 
-        // Add timestamp
+        // Timestamp
         const timestamp = message.timestamp ? new Date(message.timestamp) : new Date();
         const timeString = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 

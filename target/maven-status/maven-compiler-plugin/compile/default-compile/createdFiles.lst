@@ -1,7 +1,10 @@
+com\example\websocketdemo\repository\ChatMessageRepository.class
 com\example\websocketdemo\config\SecurityConfig.class
 com\example\websocketdemo\controller\WebSocketEventListener.class
-com\example\websocketdemo\WebsocketDemoApplication.class
 com\example\websocketdemo\config\WebSocketConfig.class
 com\example\websocketdemo\controller\ChatController.class
+com\example\websocketdemo\controller\MessageHistoryController.class
+com\example\websocketdemo\WebsocketDemoApplication.class
+com\example\websocketdemo\model\ChatMessageEntity.class
 com\example\websocketdemo\model\ChatMessage.class
 com\example\websocketdemo\model\ChatMessage$MessageType.class

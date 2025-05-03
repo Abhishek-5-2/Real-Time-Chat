@@ -1,5 +1,6 @@
 package com.example.websocketdemo.model;
-
+import java.security.Timestamp;
+import java.time.Instant;
 public class ChatMessage {
 
     public enum MessageType {
@@ -15,7 +16,7 @@ public class ChatMessage {
     private String sender;
     private String roomId;
     private String sessionId; // ✅ Add this field
-
+    private Instant timestamp;
     // Getters and Setters
     public MessageType getType() {
         return type;
@@ -55,5 +56,11 @@ public class ChatMessage {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+    public Instant getTimestamp(){
+        return timestamp;
+    }
+    public void setTimestamp(Instant timestamp){
+        this.timestamp = timestamp;
     }
 }
