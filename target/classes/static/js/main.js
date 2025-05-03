@@ -329,19 +329,19 @@ messageInput.addEventListener('input', function () {
         }));
     }, 1500); // stops typing after 1.5s of inactivity
 });
-const toggleUsersBtn = document.getElementById('toggle-users-btn');
-const onlineUsersList = document.getElementById('online-users');
-const userCountSpan = document.getElementById('user-count');
+const sidebar = document.getElementById("userSidebar");
+  const backdrop = document.getElementById("sidebarBackdrop");
+  const toggleBtn = document.getElementById("toggle-users-btn");
 
-toggleUsersBtn.addEventListener('click', () => {
-    onlineUsersList.classList.toggle('hidden');
-    // Toggle visibility, but don't change the count text
-    toggleUsersBtn.textContent = onlineUsersList.classList.contains('hidden') 
-        ? `👥 Online Users (${userCountSpan.textContent})` 
-        : `👥 Hide Users (${userCountSpan.textContent})`;
-});
+  toggleBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    backdrop.classList.toggle("show");
+  });
 
-
+  backdrop.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+    backdrop.classList.remove("show");
+  });
 
 
 usernameForm.addEventListener('submit', connect, true);

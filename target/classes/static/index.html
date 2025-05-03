@@ -32,19 +32,19 @@
 
 <div id="chat-page" class="hidden">
     <div class="chat-container">
-        <button id="emoji-btn">😊</button>
+        <!-- ✅ Wrap emoji button for positioning -->
+        <div id="emoji-wrapper" style="position: relative; z-index: 15;">
+            <button id="emoji-btn">😊</button>
+        </div>
         <div class="chat-header">
             <h1>Real-Time Chat App</h1>
             <h2 id="room-name">Chat Room:</h2>
         </div>
-        <div id="online-users-container">
-</div>
-<button id="toggle-users-btn" class="toggle-users-btn">
+ <!-- Online Users Button -->
+ <button id="toggle-users-btn" class="toggle-users-btn">
     👥 Online Users (<span id="user-count">0</span>)
   </button>
-<ul id="online-users" class="hidden"></ul>
-
-
+  
 
         <div class="connecting">Connecting...</div>
         <div id="typingIndicator" class="typing-indicator"></div>
@@ -59,7 +59,16 @@
         </form>
     </div>
 </div>
+<!-- Sidebar -->
+<div class="sidebar" id="userSidebar">
+    <h3>Online Users</h3>
+    <ul id="online-users"></ul> 
 
+
+  </div>
+  
+  <!-- Backdrop -->
+  <div class="backdrop" id="sidebarBackdrop"></div>
 
 <!-- Load Emoji Button (UMD build) -->
 <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
@@ -67,5 +76,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/js/main.js"></script>
+
+
+
 </body>
 </html>
