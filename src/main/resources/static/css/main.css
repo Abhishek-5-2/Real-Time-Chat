@@ -424,7 +424,7 @@ body {
     right: -300px;
     width: 250px;
     height: 100%;
-    background-color: #fff;
+    background-color:darkgray;
     box-shadow: -2px 0 5px rgba(0,0,0,0.2);
     transition: right 0.3s ease;
     z-index: 1001;
