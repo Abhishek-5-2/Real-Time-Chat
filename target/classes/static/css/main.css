@@ -13,24 +13,15 @@ body {
     margin: 0;
     padding: 0;
     font-weight: 400;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;     /* BG PAGE DESIGN */
     font-size: 1rem;
     line-height: 1.58;
     color: #333;
-    background-color: #f4f4f4;
+    background-color: white;
     height: 100%;
 }
 
-body:before {
-    height: 50%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #128ff2;
-    content: "";
-    z-index: 0;
-}
+
 
 .clearfix:after {
     display: block;
@@ -46,7 +37,7 @@ body:before {
     width: 100%;
     min-height: 38px;
     font-size: 15px;
-    border: 1px solid #c8c8c8;
+   
 }
 
 .form-group {
@@ -94,13 +85,13 @@ button.default {
 
 button.primary {
     background-color: #128ff2;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
-    color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);   /* FOR SEND BUTTON DESIGN   */
+    color:white;
 }
 
 button.accent {
     background-color: #ff4743;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);     /* JOIN CHAT BUTTON DESIGN   */
     color: #fff;
 }
 
@@ -113,7 +104,7 @@ button.accent {
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
     border-radius: 2px;
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
     display: inline-block;
     margin-top: 42px;
     vertical-align: middle;
@@ -148,6 +139,8 @@ button.accent {
     height: calc(100% - 60px);
     max-height: 600px;
     position: relative;
+    border-bottom: none;
+    
 }
 
 #chat-page ul {
@@ -156,7 +149,7 @@ button.accent {
     margin: 0;
     overflow: auto;
     overflow-y: scroll;
-    padding: 0 20px 0px 20px;
+    border-bottom:none ;
     height: calc(100% - 150px);
 }
 
@@ -168,7 +161,7 @@ button.accent {
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 0;
-    border-bottom: 1px solid #f4f4f4;
+    border-bottom: none;
 }
 
 #chat-page ul li p {
@@ -192,12 +185,13 @@ button.accent {
     position: relative;
 }
 
-#chat-page .chat-message i {
-    position: absolute;
+#chat-page .chat-message i {             /* IMPORTANT FOR AVATAR*/
+
     width: 42px;
     height: 42px;
     overflow: hidden;
-    left: 10px;
+    margin-left: -90px;     /*VERY IMPORTANT*/
+                        
     display: inline-block;
     vertical-align: middle;
     font-size: 18px;
@@ -212,6 +206,7 @@ button.accent {
 #chat-page .chat-message span {
     color: #333;
     font-weight: 600;
+    margin-left: -75px;       /* form name of sender ande receiver */
 }
 
 #chat-page .chat-message p {
@@ -233,20 +228,20 @@ button.accent {
 .chat-header {
     text-align: center;
     padding: 15px;
-    border-bottom: 1px solid #ececec;
+    border-bottom: none;
 }
 
 .chat-header h2 {
     margin: 0;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .connecting {
     padding-top: 5px;
     text-align: center;
-    color: #777;
+    color: black;
     position: absolute;
-    top: 65px;
+    top: 100px;
     width: 100%;
 }
 
@@ -276,7 +271,7 @@ button.accent {
         line-height:1.5rem;
         padding: 10px 20px;
         margin: 0;
-        border-bottom: 1px solid #f4f4f4;
+        border-bottom: none;
     }
 
     #messageForm .input-group button {
@@ -314,6 +309,7 @@ button.accent {
     display: flex;
     flex-direction: column;
     margin: 8px 0;
+    position: relative;
 }
 
 .chat-message.own-message {
@@ -325,10 +321,11 @@ button.accent {
 }
 
 .chat-bubble {
-    max-width: 60%;
+    max-width: 40%;
     padding: 10px 40px 20px 10px;
     border-radius: 20px;
     font-size: 19px;
+    margin-left: -50px !important;
     line-height: 1.4;
     background-color: #f1f0f0;
     color: #333;
@@ -341,6 +338,7 @@ button.accent {
     background-color: #DCF8C6; /* light green */
     color: #000;
     border-bottom-right-radius: 0;
+   
 }
 
 .other-message .chat-bubble {
