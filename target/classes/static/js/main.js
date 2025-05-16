@@ -256,6 +256,7 @@ function onMessageReceived(payload) {
         if (isSingleEmoji && message.content.trim().length <= 3) {
             bubble.classList.add('single-emoji');
         }
+        
 
         // Timestamp
         const timestamp = message.timestamp ? new Date(message.timestamp) : new Date();

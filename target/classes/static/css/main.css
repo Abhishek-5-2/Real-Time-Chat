@@ -133,7 +133,7 @@ button.accent {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    background-color: silver;
+    background-color: lightblue;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
     margin-top: 30px;
     height: calc(100% - 60px);
@@ -145,7 +145,7 @@ button.accent {
 
 #chat-page ul {
     list-style-type: none;
-    background-color: lightblue;
+    background-color: whitesmoke;
     margin: 0;
     overflow: auto;
     overflow-y: scroll;
@@ -206,7 +206,7 @@ button.accent {
 #chat-page .chat-message span {
     color: #333;
     font-weight: 600;
-    margin-left: -75px;       /* form name of sender ande receiver */
+    margin-left: -75px;       /* form name of sender and receiver */
 }
 
 #chat-page .chat-message p {
@@ -297,14 +297,12 @@ button.accent {
 
 .chat-message.same-sender {
     padding: 2px 20px !important;
-    margin: 0 !important;
     border-bottom: none !important;
+    display: flex;
+    margin-left: 50px !important;   /* fixed issue with 1st bubble misalignment*/
+
 }
 
-.chat-message.same-sender p {
-    margin: 0 !important;
-    line-height: 1.2rem !important;
-}
 .chat-message {
     display: flex;
     flex-direction: column;
@@ -321,11 +319,10 @@ button.accent {
 }
 
 .chat-bubble {
-    max-width: 40%;
+    max-width: 100%;
     padding: 10px 40px 20px 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 19px;
-    margin-left: -50px !important;
     line-height: 1.4;
     background-color: #f1f0f0;
     color: #333;
@@ -336,14 +333,13 @@ button.accent {
 
 .own-message .chat-bubble {
     background-color: #DCF8C6; /* light green */
-    color: #000;
-    border-bottom-right-radius: 0;
-   
+    color: #000;  
 }
 
 .other-message .chat-bubble {
-    background-color: azure; /*LIGHT GREEN*/
-    border-bottom-left-radius: 0;
+    background-color: ivory; 
+    
+    margin-left: -90px;   /* fixed issue with 1st bubble misalignment*/
 }
 
 .typing-indicator {
@@ -459,7 +455,7 @@ body {
   .toggle-users-btn {
     position: fixed;
     top: 100px;
-    background-color: maroon;
+    background-color: darkslategray;
     color: white;
     padding: 2px 6px;
     border: none;
